@@ -1,52 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("input");
-  const getbtn = document.getElementById("getbtn");
-  const info = document.getElementById("info");
-  const cname = document.getElementById("cname");
-  const temp = document.getElementById("temp");
-  const desc = document.getElementById("desc");
-  const error = document.getElementById("error");
+  const addbtn = document.getElementById("addbtn");
+  const list = document.getElementById("list");
 
-  const API_KEY = "5f56d525d1619d0a2cd2eac4ce55588e";
-  //const API_KEY = "981f45a4aa28a76b7dea18edba559ef0";
-  getbtn.addEventListener("click", async () => {
-    const city = input.value.trim();
-    if (!city) return;
+  let task = JSON.parse(localStorage.getItem("task")) || [];
 
-    try {
-      const data = await fetchWeatherData(city);
-      displayWeatherData(data);
-    } catch (error) {
-      showError();
+  task.forEach((tasks) => renderTask(tasks));
+
+  addbtn.addEventListener("click", () => {
+    const tasktest = input.value.trim();
+    if (tasktest === "") {
+      return;
     }
+    const newtask = {
+      id: Date.now(),
+      text: tasktest,
+      completed: false,
+    };
+    task.push(newtask);
+    savetask();
+    renderTask(newtask);
+    input.value = "";
+    console.log(task);
   });
-
-  async function fetchWeatherData(city) {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
-
-    //const url = `https://api.openweathermap.org/data/3.0/weather?q=${city}&units=metric&appid=${API_KEY}`;
-    const response = await fetch(url);
-    console.log(typeof response);
-    console.log("RESPONSE", response);
-
-    if (!response.ok) {
-      throw new Error("city not found");
-    }
-    const data2 = await response.json();
-    return data2;
+  function savetask() {
+    localStorage.setItem("task", JSON.stringify(task));
   }
-  function displayWeatherData(data2) {
-    console.log(data2);
-    const { name, main, weather } = data2;
-    cname.textContent = name;
-    temp.textContent = `Temperature : ${main.temp}`;
-    desc.textContent = `Weather : ${weather[0].description}`;
-
-    info.classList.remove("hidden");
-    error.classList.add("hidden");
-  }
-  function showError() {
-    info.classList.remove("hidden");
-    error.classList.add("hidden");
+  function renderTask(tasks) {
+    console.log(tasks.text);
+    const li = document.createElement("li");
+    li.setAttribute("data-id", tasks.id);
+    if (tasks.completed) li.classList.add("completed");
+    li.innerHTML = `
+        <span>${tasks.text}</span>
+        <button>delete</button>
+    `;
+    li.addEventListener("click", (e) => {
+      if (e.target.tagName === "BUTTON") return;
+      tasks.completed = !tasks.completed;
+      li.classList.toggle("completed");
+      savetask();
+    });
+    li.querySelector("button").addEventListener("click", (e) => {
+      e.stopPropagation();
+      task = task.filter((t) => t.id !== tasks.id);
+      li.remove();
+      savetask();
+    });
+    list.appendChild(li);
   }
 });

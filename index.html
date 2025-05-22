@@ -3,22 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather App</title>
+    <title>To Do List</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="con">
-      <h1>Weather App</h1>
+      <h1>TO-DO-LIST</h1>
       <div class="icon">
-        <input type="text" id="input" placeholder="Enter city name" />
-        <button id="getbtn">Get Weather</button>
+        <input type="text" id="input" placeholder="Add a new task..." />
+        <button type="submit" id="addbtn">Add task</button>
       </div>
-      <div id="info" class="hidden">
-        <h2 id="cname"></h2>
-        <p id="temp"></p>
-        <p id="desc"></p>
-      </div>
-      <p id="error" class="hidden">City not found. Please try again.</p>
+      <ul id="list"></ul>
     </div>
     <script src="script.js"></script>
   </body>

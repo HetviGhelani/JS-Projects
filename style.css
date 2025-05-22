@@ -3,71 +3,82 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
-  font-family: "Times New Roman", Times, serif;
-  background-color: #4f96e7;
-  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(213, 221, 155);
+  /* color: rgb(215, 82, 179); */
+  color: #a5088b;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
 }
-
 .con {
-  background-color: #1e23ac;
-  padding: 70px;
-  border-radius: 25px;
-  width: 400px;
-  box-shadow: 0 5px 15px rgba(39, 2, 91, 0.856);
-  text-align: center;
+  background-color: beige;
+  padding: 40px;
+  border-radius: 20px;
+  width: 300px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-
 h1 {
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 25px;
   font-size: 30px;
 }
-
 .icon {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
-
 input[type="text"] {
   width: 70%;
   padding: 10px;
-  background-color: #a0c8e1;
+  background-color: rgb(231, 189, 220);
   border: none;
   border-radius: 5px;
-  color: #080808;
+  color: #070707;
   outline: none;
 }
-
 button {
   width: 25%;
   padding: 10px;
-  background-color: #a0c8e1;
+  background-color: #e579d3;
   border: none;
   border-radius: 5px;
-  color: #090808;
+  color: #fff;
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 button:hover {
-  background-color: #3b90bb;
+  background-color: #de2ee4;
+}
+ul {
+  list-style-type: none;
+  padding: 0px;
+}
+li {
+  background-color: rgb(231, 189, 220);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+li.completed {
+  text-decoration: line-through;
+  opacity: 0.7;
 }
 
-#weather-info {
-  margin-top: 20px;
+li button {
+  background-color: #d17474;
+  border: none;
+  padding: 5px;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
-
-#error-message {
-  color: #ff5722;
-  margin-top: 20px;
+li button:hover {
+  background-color: #bc3131;
 }
