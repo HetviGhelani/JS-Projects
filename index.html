@@ -3,36 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Expense Tracker</title>
+    <title>Weather App</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>Expense Tracker</h1>
-      <form id="expense-form">
-        <input
-          type="text"
-          id="expense-name"
-          placeholder="Expense name"
-          required
-        />
-        <input
-          type="number"
-          id="expense-amount"
-          placeholder="Amount"
-          required
-        />
-        <button type="submit">Add Expense</button>
-      </form>
-
-      <h2>Expenses</h2>
-      <ul id="expense-list">
-        <!-- Expenses will be dynamically added here -->
-      </ul>
-
-      <div id="total">
-        <h3>Total: $<span id="total-amount">0.00</span></h3>
+    <div class="con">
+      <h1>Weather App</h1>
+      <div class="icon">
+        <input type="text" id="input" placeholder="Enter city name" />
+        <button id="getbtn">Get Weather</button>
       </div>
+      <div id="info" class="hidden">
+        <h2 id="cname"></h2>
+        <p id="temp"></p>
+        <p id="desc"></p>
+      </div>
+      <p id="error" class="hidden">City not found. Please try again.</p>
     </div>
     <script src="script.js"></script>
   </body>

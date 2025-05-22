@@ -1,70 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const exForm = document.getElementById("expense-form");
-  const exName = document.getElementById("expense-name");
-  const exAmount = document.getElementById("expense-amount");
-  const exList = document.getElementById("expense-list");
-  const totalAmountDisplay = document.getElementById("total-amount");
+  const input = document.getElementById("input");
+  const getbtn = document.getElementById("getbtn");
+  const info = document.getElementById("info");
+  const cname = document.getElementById("cname");
+  const temp = document.getElementById("temp");
+  const desc = document.getElementById("desc");
+  const error = document.getElementById("error");
 
-  let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
-  let totalAmount = calculateTotal();
+  const API_KEY = "5f56d525d1619d0a2cd2eac4ce55588e";
+  //const API_KEY = "981f45a4aa28a76b7dea18edba559ef0";
+  getbtn.addEventListener("click", async () => {
+    const city = input.value.trim();
+    if (!city) return;
 
-  renderExpenses();
-
-  exForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = exName.value.trim();
-    const amount = parseFloat(exAmount.value.trim());
-
-    if (name !== "" && !isNaN(amount) && amount > 0) {
-      const newExpense = {
-        id: Date.now(),
-        name: name,
-        amount: amount,
-      };
-      expenses.push(newExpense);
-      saveExpensesTolocal();
-      renderExpenses();
-      updateTotal();
-
-      //clear input
-      exName.value = "";
-      exAmount.value = "";
+    try {
+      const data = await fetchWeatherData(city);
+      displayWeatherData(data);
+    } catch (error) {
+      showError();
     }
   });
 
-  function renderExpenses() {
-    exList.innerHTML = "";
-    expenses.forEach((expense) => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-          ${expense.name} - $${expense.amount}
-          <button data-id="${expense.id}">Delete</button>
-          `;
-      exList.appendChild(li);
-    });
-  }
+  async function fetchWeatherData(city) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
 
-  function calculateTotal() {
-    return expenses.reduce((sum, expense) => sum + expense.amount, 0);
-  }
+    //const url = `https://api.openweathermap.org/data/3.0/weather?q=${city}&units=metric&appid=${API_KEY}`;
+    const response = await fetch(url);
+    console.log(typeof response);
+    console.log("RESPONSE", response);
 
-  function saveExpensesTolocal() {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }
-
-  function updateTotal() {
-    totalAmount = calculateTotal();
-    totalAmountDisplay.textContent = totalAmount.toFixed(2);
-  }
-
-  exList.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      const expenseId = parseInt(e.target.getAttribute("data-id"));
-      expenses = expenses.filter((expense) => expense.id !== expenseId);
-
-      saveExpensesTolocal();
-      renderExpenses();
-      updateTotal();
+    if (!response.ok) {
+      throw new Error("city not found");
     }
-  });
+    const data2 = await response.json();
+    return data2;
+  }
+  function displayWeatherData(data2) {
+    console.log(data2);
+    const { name, main, weather } = data2;
+    cname.textContent = name;
+    temp.textContent = `Temperature : ${main.temp}`;
+    desc.textContent = `Weather : ${weather[0].description}`;
+
+    info.classList.remove("hidden");
+    error.classList.add("hidden");
+  }
+  function showError() {
+    info.classList.remove("hidden");
+    error.classList.add("hidden");
+  }
 });
