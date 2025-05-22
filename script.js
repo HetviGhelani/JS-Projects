@@ -1,52 +1,87 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("input");
-  const addbtn = document.getElementById("addbtn");
-  const list = document.getElementById("list");
+  const startBtn = document.getElementById("start-btn");
+  const nextBtn = document.getElementById("next-btn");
+  const restartBtn = document.getElementById("restart-btn");
+  const questionContainer = document.getElementById("question-container");
+  const questionText = document.getElementById("question-text");
+  const choicesList = document.getElementById("choices-list");
+  const resultContainer = document.getElementById("result-container");
+  const scoreDisplay = document.getElementById("score");
 
-  let task = JSON.parse(localStorage.getItem("task")) || [];
+  const questions = [
+    {
+      question: "What is the capital of France?",
+      choices: ["Paris", "London", "Berlin", "Madrid"],
+      answer: "Paris",
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      choices: ["Mars", "Venus", "Jupiter", "Saturn"],
+      answer: "Mars",
+    },
+    {
+      question: "Who wrote 'Hamlet'?",
+      choices: [
+        "Charles Dickens",
+        "Jane Austen",
+        "William Shakespeare",
+        "Mark Twain",
+      ],
+      answer: "William Shakespeare",
+    },
+  ];
 
-  task.forEach((tasks) => renderTask(tasks));
+  let currentQuestionIndex = 0;
+  let score = 0;
 
-  addbtn.addEventListener("click", () => {
-    const tasktest = input.value.trim();
-    if (tasktest === "") {
-      return;
+  startBtn.addEventListener("click", startQuiz);
+
+  nextBtn.addEventListener("click", () => {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+      showQuestion();
+    } else {
+      showResult();
     }
-    const newtask = {
-      id: Date.now(),
-      text: tasktest,
-      completed: false,
-    };
-    task.push(newtask);
-    savetask();
-    renderTask(newtask);
-    input.value = "";
-    console.log(task);
   });
-  function savetask() {
-    localStorage.setItem("task", JSON.stringify(task));
+
+  restartBtn.addEventListener("click", () => {
+    currentQuestionIndex = 0;
+    score = 0;
+    resultContainer.classList.add("hidden");
+    startQuiz();
+  });
+
+  function startQuiz() {
+    startBtn.classList.add("hidden");
+    resultContainer.classList.add("hidden");
+    questionContainer.classList.remove("hidden");
+    showQuestion();
   }
-  function renderTask(tasks) {
-    console.log(tasks.text);
-    const li = document.createElement("li");
-    li.setAttribute("data-id", tasks.id);
-    if (tasks.completed) li.classList.add("completed");
-    li.innerHTML = `
-        <span>${tasks.text}</span>
-        <button>delete</button>
-    `;
-    li.addEventListener("click", (e) => {
-      if (e.target.tagName === "BUTTON") return;
-      tasks.completed = !tasks.completed;
-      li.classList.toggle("completed");
-      savetask();
+
+  function showQuestion() {
+    nextBtn.classList.add("hidden");
+    questionText.textContent = questions[currentQuestionIndex].question;
+    choicesList.innerHTML = ""; //clear previous choices
+    questions[currentQuestionIndex].choices.forEach((choice) => {
+      const li = document.createElement("li");
+      li.textContent = choice;
+      li.addEventListener("click", () => selectAnswer(choice));
+      choicesList.appendChild(li);
     });
-    li.querySelector("button").addEventListener("click", (e) => {
-      e.stopPropagation();
-      task = task.filter((t) => t.id !== tasks.id);
-      li.remove();
-      savetask();
-    });
-    list.appendChild(li);
+  }
+
+  function selectAnswer(choice) {
+    const correctAnswer = questions[currentQuestionIndex].answer;
+    if (choice === correctAnswer) {
+      score++;
+    }
+    nextBtn.classList.remove("hidden");
+  }
+
+  function showResult() {
+    questionContainer.classList.add("hidden");
+    resultContainer.classList.remove("hidden");
+    scoreDisplay.textContent = `${score} out of ${questions.length}`;
   }
 });
