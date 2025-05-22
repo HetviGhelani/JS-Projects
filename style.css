@@ -5,71 +5,79 @@
 }
 body {
   font-family: Arial, sans-serif;
-  background-color: #a16884;
+  background-color: #dd8a8d;
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 90vh;
 }
+
 .container {
   width: 400px;
   padding: 20px;
-  background-color: #e31293;
+  background-color: #d84646;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgb(162, 1, 103);
+  box-shadow: 0 5px 15px rgb(126, 3, 3);
 }
+
 h1,
-h2 {
+h2,
+h3 {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-#product-list {
-  margin-bottom: 50px;
+form {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
-.product {
-  background-color: #bb025b;
+
+input[type="text"],
+input[type="number"] {
+  width: 45%;
+  padding: 10px;
+  background-color: #f3f0f0;
+  border: none;
+  border-radius: 5px;
+  color: #060606;
+  outline: none;
+  margin: 3px;
+}
+
+button {
+  padding: 10px;
+  background-color: #656269;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #434148;
+}
+
+#expense-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+#expense-list li {
+  background-color: #f4f1f1;
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
+  color: #060606;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
 }
-.product button {
-  background-color: #d155a6;
-  border: none;
-  padding: 5px 10px;
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
 
-.product button:hover {
-  background-color: #d4309b;
-}
-
-#cart-items {
-  margin-bottom: 20px;
-}
-
-#cart-total {
+#total {
   text-align: right;
-}
-
-#checkout-btn {
-  background-color: #bb025b;
-  border: none;
-  padding: 10px;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#checkout-btn:hover {
-  background-color: #c9156c;
 }
 
 .hidden {
